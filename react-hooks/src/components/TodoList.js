@@ -1,22 +1,22 @@
 import React, {useState} from 'react'
-
+import AddNewTodo from './AddNewTodo';
+import './TodoList.css';
 const TodoList = () => {
     // todos => actual value, setTodos => function to change the actual value
     const [todos, setTodos] = useState([
-        {text: 'Pay bills', id: 1},
-        {text: 'Do homework', id: 2},
-        {text: 'Water plants', id: 3}
+        
     ]);
 
-    const addTodo = () => {
+    const addTodo = (text) => {
         setTodos([
             ...todos, // this gives the earlier existing todos
-            {text: 'Learn hooks', id: Math.random()} // uuid package for unique id
+            {text: text, id: Math.random()} // uuid package for unique id
         ])
     }
 
   return (
-    <div>
+    <div className="TodoList">
+      <h1 style={{textAlign: 'center'}}>Todo List</h1>
       <ul>
         {todos.map((todo) => {
             return(
@@ -24,7 +24,7 @@ const TodoList = () => {
             )
         })}
       </ul>
-      <button onClick={addTodo}>Add a todo</button>
+      <AddNewTodo addTodo ={addTodo}/>
     </div>
   )
 }
