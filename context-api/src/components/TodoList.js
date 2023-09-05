@@ -24,17 +24,24 @@
 // Using ContextHooks
 import React, {useContext} from 'react'
 import { ThemeContext } from '../contexts/ThemeContext'
+import { TodoListContext } from '../contexts/TodoListContext';
 
 
 const TodoList = () => {
+  const {todos} = useContext(TodoListContext);
   const {isDarkTheme, darkTheme, lightTheme, changeTheme} = useContext(ThemeContext);
   const theme = isDarkTheme ? darkTheme : lightTheme;
   return(
     <div style={{background: theme.background, color: theme.text, height: '140px', 
       textAlign: 'center' }}>
-        <p className='item'>React js</p>
-        <p className='item'>Anime</p>
-        <p className='item'>Coding</p>
+      {
+        todos.length ? (
+          todos.map((todo) => {
+            return <p className='item' key={todo.id}>{todo.text}</p>
+          }) 
+        ) : (<div> You have no todos </div>)
+      }
+        
         <button className='ui button primary' onClick={changeTheme}>Change theme</button>
       </div>
   )
