@@ -22,17 +22,27 @@
 // export default TodoList
 
 // Using ContextHooks
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import { ThemeContext } from '../contexts/ThemeContext'
 import { TodoListContext } from '../contexts/TodoListContext';
 
 
 const TodoList = () => {
-  const {todos} = useContext(TodoListContext);
+  const [todo, setTodo] = useState('');
+  const {todos, addTodo} = useContext(TodoListContext);
   const {isDarkTheme, darkTheme, lightTheme, changeTheme} = useContext(ThemeContext);
   const theme = isDarkTheme ? darkTheme : lightTheme;
+
+  const handleChange = (e) => {
+    setTodo(e.target.value);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addTodo(todo);
+  }
   return(
-    <div style={{background: theme.background, color: theme.text, height: '140px', 
+    <div style={{background: theme.background, color: theme.text, 
       textAlign: 'center' }}>
       {
         todos.length ? (
@@ -41,6 +51,12 @@ const TodoList = () => {
           }) 
         ) : (<div> You have no todos </div>)
       }
+
+      <form onSubmit = {handleSubmit}>
+        <label htmlFor='todo'>Add todo</label>
+        <input type='text'  onChange={handleChange}/>
+        <input type='submit' value='Add new todo' className='ui button primary'/>
+      </form>
         
         <button className='ui button primary' onClick={changeTheme}>Change theme</button>
       </div>
